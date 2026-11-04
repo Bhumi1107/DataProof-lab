@@ -1,0 +1,24 @@
+DATAPROOF LAB — COMPLETE PORTFOLIO RELEASE v1.0.0
+
+YOUR WEBSITE IS READY LOCALLY. A PUBLIC GITHUB REPOSITORY DOES NOT EXIST YET.
+
+1. Fully extract this ZIP (do not open index.html while the files are still inside the ZIP).
+2. Open the extracted DataProof-Lab folder.
+3. Double-click index.html in Chrome or Edge.
+4. Click "Try a sample dataset". The dashboard should show 6 rows, 5 columns, 3 missing cells and 1 duplicate.
+5. Try the Data Cleaning Studio and Dataset Passport exports.
+
+TO PUT IT ON GITHUB:
+1. Create a NEW public repository called DataProof-Lab under your GitHub account Bhumi1107.
+2. Open docs/PUBLISHING.md and follow the Git commands to upload this folder.
+3. Enable GitHub Pages: Settings > Pages > Deploy from a branch > main > /(root).
+
+THE EXPECTED SITE ADDRESS AFTER DEPLOYMENT:
+https://bhumi1107.github.io/DataProof-lab/
+
+CHECKS: Run npm test (Node.js 20+) to execute 21 automated JavaScript tests.
+
+You can show your portfolio visitors the screenshots in assets/ and technical details in docs/.
+No MySQL, no API keys, no backend, and no Python are required to run the website.
+
+IMPORTANT: This is an educational tool, not a trained AI system. Do not use or upload sensitive data.

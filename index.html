@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DataProof Lab — browser-only CSV quality screening, statistics, cleaning previews and Dataset Passports.">
+  <meta name="theme-color" content="#142b44">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>DataProof Lab | Dataset Quality Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="parser.js" defer></script>
+  <script src="audit.js" defer></script>
+  <script src="statistics.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="cleaning.js" defer></script>
+  <script src="passport.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">D</span><div><h2>DataProof Lab</h2><small>DATA INTELLIGENCE WORKSPACE</small></div></div>
+    <span class="privacy-label">● Browser-only analysis</span>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <span class="eyebrow">DATAPROOF LAB · OPEN DATA-QUALITY WORKBENCH</span>
+      <h1>Know your data before you trust it.</h1>
+      <p>Profile your data, flag unusual values and preview careful data-cleaning decisions without uploading it.</p>
+    </section>
+
+    <section class="upload-card">
+      <div class="section-heading"><h2>Upload a CSV dataset</h2><p>Choose a CSV file (maximum 5 MB). Analysis runs on your device.</p></div>
+      <label class="upload-area" for="csvFile">
+        <span class="upload-icon">↑</span>
+        <strong>Choose your CSV file</strong>
+        <span>Supports quoted values and multiline cells</span>
+        <input id="csvFile" type="file" accept=".csv,text/csv">
+      </label>
+      <div class="demo-actions"><button type="button" id="sampleButton" class="sample-button">Try a sample dataset <span aria-hidden="true">↗</span></button><span>Or upload your own CSV above. No sign-up required.</span></div>
+      <p id="status" role="status">No dataset selected.</p>
+    </section>
+
+    <div id="results" hidden>
+      <div class="section-heading"><h2>Dataset overview</h2><p>Measured directly from the uploaded CSV</p></div>
+      <section class="stats-grid" aria-label="Dataset summary">
+        <div class="stat-card"><span>Total rows</span><h2 id="totalRows">0</h2><small>Excluding header</small></div>
+        <div class="stat-card"><span>Total columns</span><h2 id="totalColumns">0</h2><small>Dataset fields</small></div>
+        <div class="stat-card"><span>Missing values</span><h2 id="missingValues">0</h2><small>Blank cells</small></div>
+        <div class="stat-card"><span>Duplicate rows</span><h2 id="duplicateRows">0</h2><small>Exact matches</small></div>
+      </section>
+
+      <section class="analysis-grid">
+        <div class="panel"><h2>Data completeness</h2><p>Percentage of cells that aren't blank</p><strong class="big-metric" id="completenessValue">0%</strong><div class="progress-track"><div class="progress-fill" id="completenessBar"></div></div><p id="completenessDescription"></p></div>
+        <div class="panel"><h2>Row uniqueness</h2><p>Percentage of rows not counted as repeats</p><strong class="big-metric" id="uniquenessValue">0%</strong><div class="progress-track"><div class="progress-fill" id="uniquenessBar"></div></div><p id="uniquenessDescription"></p></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading"><h2>Column intelligence</h2><p>Inferred types are heuristics. Identifiers such as IDs may look numeric but are not continuous measurements.</p></div>
+        <div class="table-wrapper"><table id="columnTable"><thead><tr><th>Column</th><th>Type</th><th>Filled</th><th>Missing</th><th>Distinct</th></tr></thead><tbody></tbody></table></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading"><h2>Numeric statistics</h2><p>Mean, median, quartiles and IQR are calculated from non-empty numeric values.</p></div>
+        <div class="table-wrapper"><table id="statsTable"><thead><tr><th>Column</th><th>Count</th><th>Mean</th><th>Median</th><th>Min</th><th>Max</th><th>Q1</th><th>Q3</th><th>IQR</th><th>Possible outliers</th></tr></thead><tbody></tbody></table></div>
+        <p id="noNumeric" class="helper" hidden>No entirely numeric columns detected.</p>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading"><h2>Possible outliers</h2><p>The 1.5 × IQR rule flags unusual numeric values. A flag is not proof of an error.</p></div>
+        <div id="outlierList" class="findings"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading"><div><h2>Explore a column</h2><p class="helper">Switch columns to inspect their distribution.</p></div><div><label for="columnSelect" class="select-label">Column</label><select id="columnSelect"></select></div></div>
+        <p id="chartNote" class="helper"></p>
+        <div id="distributionChart" class="distribution" aria-live="polite"></div>
+      </section>
+
+      <section class="panel cleaning-panel" id="cleaningStudio">
+        <div class="section-heading"><span class="eyebrow">NON-DESTRUCTIVE CLEANING</span><h2>Data Cleaning Studio</h2><p>Try safe transformations on a separate copy of the dataset. Compare the quality report before downloading.</p></div>
+        <div class="clean-config">
+          <label class="clean-toggle"><input type="checkbox" id="cleanDupes" checked> Remove exact duplicate rows</label>
+          <label class="clean-toggle"><input type="checkbox" id="cleanFill"> Fill blank cells in one suitable column</label>
+          <div class="clean-column"><label for="cleanColumn">Column</label><select id="cleanColumn"></select></div>
+          <div class="clean-column"><span>Method</span><strong id="cleanStrategy">Median or most frequent value</strong></div>
+        </div>
+        <p class="helper">IDs, names and contact fields are excluded from automatic filling. Duplicates are removed <strong>before</strong> blank-value filling. Neither action changes your uploaded data.</p>
+        <div class="clean-compare" aria-label="Before and after data cleaning">
+          <div class="clean-metric"><span>Rows</span><div><b id="cleanBeforeRows">—</b><span>→</span><strong id="cleanAfterRows">—</strong></div></div>
+          <div class="clean-metric"><span>Missing cells</span><div><b id="cleanBeforeMissing">—</b><span>→</span><strong id="cleanAfterMissing">—</strong></div></div>
+          <div class="clean-metric"><span>Duplicate rows</span><div><b id="cleanBeforeDuplicates">—</b><span>→</span><strong id="cleanAfterDuplicates">—</strong></div></div>
+          <div class="clean-metric"><span>Completeness</span><div><b id="cleanBeforeComplete">—</b><span>→</span><strong id="cleanAfterComplete">—</strong></div></div>
+        </div>
+        <p id="cleanEffects" class="clean-effects" role="status">Upload a dataset to see cleaning results.</p>
+        <div id="cleanWarnings" class="clean-warnings" aria-live="polite"></div>
+        <h3>Preview of cleaned rows</h3>
+        <p class="helper">Only the first six resulting rows are shown. The original preview remains available below.</p>
+        <div class="table-wrapper"><table id="cleanPreviewTable"><thead></thead><tbody></tbody></table></div>
+        <div class="clean-actions"><button id="cleanDownload" type="button" disabled>↓ Download cleaned CSV</button><span id="cleanStatus" role="status">Original data remains untouched.</span></div>
+      </section>
+
+      <section class="panel passport-panel" id="datasetPassport">
+        <div class="section-heading"><span class="eyebrow">EXPLAINABLE REPORTING</span><h2>Dataset Passport</h2>
+          <p>Generate a transparent quality summary, recommended checks and a shareable report — without including individual CSV rows.</p>
+        </div>
+        <div class="passport-top">
+          <div><span class="passport-label">Assessment under implemented checks</span><h3 id="passportAssessment">Waiting for dataset</h3><p id="passportSummary" class="helper"></p></div>
+          <div class="passport-scope"><label for="passportScope">Analyze version</label><select id="passportScope"><option value="original">Original uploaded data</option><option value="cleaning_preview">Simulated cleaning preview</option></select><p id="passportSource" class="helper">Original uploaded dataset</p></div>
+        </div>
+        <div class="passport-kpis" aria-label="Passport quality metrics">
+          <div class="passport-kpi"><span>Completeness</span><strong id="passportMissing">—</strong></div>
+          <div class="passport-kpi"><span>Row uniqueness</span><strong id="passportUnique">—</strong></div>
+          <div class="passport-kpi"><span>Review / high flags</span><strong id="passportFlags">—</strong></div>
+        </div>
+        <div class="section-heading"><h3>Evidence &amp; recommended next steps</h3><p>Rules are explicit and limited; these are not clinical or machine-learning predictions.</p></div>
+        <div id="passportFindings" class="passport-findings" aria-live="polite"></div>
+        <div class="section-heading"><h3>Column-level passport</h3><p>Names, inferred types, missingness and outlier counts — not raw records.</p></div>
+        <div class="table-wrapper"><table id="passportColumns"><thead><tr><th>Column</th><th>Inferred type</th><th>Blank</th><th>Blank %</th><th>IQR flags</th></tr></thead><tbody></tbody></table></div>
+        <p id="passportColumnNote" class="helper"></p>
+        <div class="passport-actions"><button type="button" id="passportJSON">↓ Download JSON report</button><button type="button" id="passportHTML">↓ Download printable HTML</button></div>
+        <p id="passportStatus" role="status" class="helper">Upload a dataset to generate a passport.</p>
+        <p class="passport-privacy"><strong>Before sharing:</strong> Reports exclude individual CSV records, but file names, column names and aggregate statistics can still reveal sensitive information. Inspect downloaded reports first.</p>
+      </section>
+
+      <section class="panel"><h2>Column missing values</h2><div class="table-wrapper"><table id="missingTable"><thead><tr><th>Column</th><th>Missing</th><th>Missing %</th></tr></thead><tbody></tbody></table></div></section>
+
+      <section class="panel"><h2>Dataset preview</h2><p class="helper">Only the first 10 data rows are shown below.</p><div class="table-wrapper"><table id="previewTable"><thead></thead><tbody></tbody></table></div></section>
+
+      <section class="privacy-note"><strong>Privacy & limitations:</strong> This demonstration reads your file in your browser, does not upload its contents, and does not save it to localStorage. Inferred types and potential outliers require human review.</section>
+    </div>
+  </main>
+  <footer class="app-footer"><span>DataProof Lab <b>·</b> v1.0.0</span><span>Browser-only · Explainable rules · Educational tool, not an ML certification</span></footer>
+</body>
+</html>

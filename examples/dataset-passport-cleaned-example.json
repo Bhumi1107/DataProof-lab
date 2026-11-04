@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "report_name": "DataProof Lab Dataset Passport",
+  "generated_at": "2026-11-04T00:00:00.000Z",
+  "source_filename": "dataproof-cleaning-preview.csv",
+  "variant": "original",
+  "dataset": {
+    "rows": 5,
+    "columns": 5,
+    "total_cells": 25,
+    "blank_cells": 2,
+    "blank_cell_percent": 8,
+    "completeness_percent": 92,
+    "exact_duplicate_rows": 0,
+    "duplicate_percent": 0,
+    "uniqueness_percent": 100
+  },
+  "columns": [
+    {
+      "name": "student_id",
+      "index": 0,
+      "inferred_type": "numeric",
+      "filled": 5,
+      "blank": 0,
+      "blank_percent": 0,
+      "distinct_nonblank": 5,
+      "numeric_summary": {
+        "observations": 5,
+        "mean": 3,
+        "median": 3,
+        "minimum": 1,
+        "maximum": 5,
+        "q1": 2,
+        "q3": 4,
+        "iqr": 2,
+        "iqr_outlier_check_assessed": true,
+        "iqr_flagged_count": 0
+      }
+    },
+    {
+      "name": "name",
+      "index": 1,
+      "inferred_type": "text",
+      "filled": 5,
+      "blank": 0,
+      "blank_percent": 0,
+      "distinct_nonblank": 5,
+      "numeric_summary": null
+    },
+    {
+      "name": "score",
+      "index": 2,
+      "inferred_type": "numeric",
+      "filled": 5,
+      "blank": 0,
+      "blank_percent": 0,
+      "distinct_nonblank": 5,
+      "numeric_summary": {
+        "observations": 5,
+        "mean": 78.1,
+        "median": 73.5,
+        "minimum": 72,
+        "maximum": 98,
+        "q1": 73,
+        "q3": 74,
+        "iqr": 1,
+        "iqr_outlier_check_assessed": true,
+        "iqr_flagged_count": 1
+      }
+    },
+    {
+      "name": "category",
+      "index": 3,
+      "inferred_type": "categorical",
+      "filled": 5,
+      "blank": 0,
+      "blank_percent": 0,
+      "distinct_nonblank": 2,
+      "numeric_summary": null
+    },
+    {
+      "name": "contact",
+      "index": 4,
+      "inferred_type": "text",
+      "filled": 3,
+      "blank": 2,
+      "blank_percent": 40,
+      "distinct_nonblank": 3,
+      "numeric_summary": null
+    }
+  ],
+  "checks": [
+    {
+      "severity": "review",
+      "title": "Missing values present",
+      "evidence": "2 blank cells (8.0%)",
+      "explanation": "Blank values can affect statistics and model preparation.",
+      "recommendation": "Review missingness by column. If you impute, document the method and validate its impact."
+    },
+    {
+      "severity": "review",
+      "title": "Possible numeric outliers",
+      "evidence": "1 flagged value(s) across 1 column(s)",
+      "explanation": "The 1.5 × IQR rule identifies unusual observations; these can be correct values.",
+      "recommendation": "Investigate the source, units, and distribution before modifying any flagged value."
+    },
+    {
+      "severity": "info",
+      "title": "Potential identifier columns",
+      "evidence": "3 header(s) resemble IDs or contact fields",
+      "explanation": "Column names provide only a heuristic; values were not verified for privacy or identity.",
+      "recommendation": "Exclude identifiers and sensitive information as appropriate before modeling or sharing reports."
+    },
+    {
+      "severity": "info",
+      "title": "Small dataset",
+      "evidence": "5 row(s)",
+      "explanation": "Statistical patterns based on small samples may be unstable.",
+      "recommendation": "Do not interpret this dataset alone as sufficient for reliable machine learning."
+    }
+  ],
+  "cleaning_preview": null,
+  "methodology": {
+    "missing": "Cell is missing when empty or whitespace-only.",
+    "duplicates": "Exact row matches use string equality in original column order.",
+    "types": "Inferred by heuristics; numeric identifiers may be misclassified.",
+    "quartiles": "Linear interpolation of sorted values at (n-1)*p.",
+    "outliers": "1.5 × IQR; only numeric fields with >=4 values and nonzero IQR. Identifier-like headers are excluded from warning summary.",
+    "quality_decision": "No composite readiness score: checks are transparent and contextual.",
+    "target_label": "No target was selected; label leakage, validation strategy, representation and fairness were not assessed."
+  },
+  "limitations": [
+    "Educational quality screening, not an AI model and not an ML-readiness certification.",
+    "CSV type inference is heuristic and may be wrong.",
+    "Statistical aggregates and column names can themselves be sensitive even without raw rows.",
+    "No assessment of bias, data provenance, label leakage, domain constraints, or actual model performance.",
+    "The source file remains in the browser; downloadable reports are generated locally and are not uploaded."
+  ],
+  "privacy": "Exports contain column names and aggregate statistics, not individual CSV records."
+}
