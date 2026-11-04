@@ -87,3 +87,33 @@ h1{font-size:clamp(29px,4vw,44px);letter-spacing:-1.4px;line-height:1.15;margin:
 .app-footer{max-width:1160px;width:92%;margin:12px auto 36px;padding:18px 0;border-top:1px solid #dae7e3;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#7c8d96;font-size:12px}
 .app-footer b{color:#19947a}
 @media(max-width:520px){.demo-actions{align-items:flex-start;flex-direction:column}.sample-button{width:100%}}
+
+
+/* v2.1 · Custom Validation Studio — progressive enhancement over v1.0 */
+.validation-panel{border-top:4px solid #178970}
+.validation-explainer{padding:15px 17px;background:#f0f9f5;border:1px solid #d3e9dc;border-radius:12px;color:#426b5c;font-size:13px;line-height:1.65}
+.validation-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:end;gap:16px;margin:24px 0 14px}
+.validation-form label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:750;color:#445b69}
+.validation-form input,.validation-form select{width:100%;min-width:0;border:1px solid #d9e5e2;border-radius:10px;background:#fff;padding:12px 13px;color:#243c49;font:inherit;font-weight:500}
+.validation-extra{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.validation-extra[hidden]{display:none!important}
+.validation-form button,.validation-footer button{width:max-content;border:1px solid #14745d;border-radius:10px;padding:12px 17px;background:#167e66;color:white;font-weight:800;font-size:12px;cursor:pointer}
+.validation-form button:hover,.validation-footer button:hover:not(:disabled){background:#0e654f}
+.validation-form button:disabled,.validation-footer button:disabled{opacity:.5;cursor:not-allowed}
+.validation-summary{background:#eff5f5;border:1px solid #dce8e8;border-radius:10px;padding:14px 16px;color:#2a4d54;font-size:13px;font-weight:800}
+.validation-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:17px 0}
+.validation-item{border:1px solid #e4eaec;border-radius:12px;padding:17px;background:white;min-width:0}
+.validation-item-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.validation-item-head strong{font-size:13px;color:#243d4b}
+.validation-pass,.validation-fail{padding:6px 8px;border-radius:8px;font-size:10px;font-weight:850}
+.validation-pass{background:#e2f6e9;color:#1a7856}
+.validation-fail{background:#fff0e9;color:#ac5537}
+.validation-item .helper{font-size:12px;margin:9px 0 0}
+.validation-rows{font-size:12px;color:#597782;line-height:1.5;overflow-wrap:anywhere}
+.validation-remove{background:transparent;border:0;color:#a14e49;font-size:11px;text-decoration:underline;cursor:pointer}
+.validation-footer{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:18px}
+.validation-footer .helper{flex:1;min-width:200px;line-height:1.55;font-size:11px}
+.error-text{color:#aa4237!important}
+@media(max-width:720px){.validation-form,.validation-results,.validation-extra{grid-template-columns:1fr}.validation-form button,.validation-footer button{width:100%}.validation-form{gap:12px}}
+
+.validation-form[hidden]{display:none!important}

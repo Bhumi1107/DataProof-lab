@@ -8,6 +8,21 @@
 
 [Mobile screenshot](assets/dataproof-dashboard-mobile.webp) · [Detailed Dataset Passport screenshot](assets/dataproof-passport-section.webp)
 
+## Upcoming advanced platform: DataProof X
+
+An experimental **Custom Validation Studio** has been implemented on the
+[\`feature/validation-studio-v2\`](https://github.com/Bhumi1107/DataProof-lab/tree/feature/validation-studio-v2)
+branch. It lets users configure required, unique, numeric-range and allowed-value
+checks for the original CSV, inspect failure counts and CSV row references,
+and export an aggregate rule summary. The stable live v1.0 website is unchanged
+until this feature branch is reviewed and merged.
+
+The broader roadmap covers decision-aware cleaning, two-dataset drift detection,
+ML readiness checks and eventually actual evaluated baseline ML models.
+**These later capabilities are plans, not features already available.**
+
+See [DataProof X roadmap](docs/ADVANCED_ROADMAP.md).
+
 ## Quick start
 
 1. Extract the ZIP **fully** to an ordinary folder such as `Documents/DataProof-Lab` (do not run `index.html` inside a compressed ZIP or temporary archive preview).
