@@ -84,6 +84,7 @@ async function analyzeCSVText(csvText, filename) {
     setupColumnSelect(profiles);
     startCleaningStudio(headers, dataRows);
     startPassport(headers, dataRows, filename);
+    window.DataProofValidation.start(headers, dataRows);
 
     results.hidden = false;
     statusText.textContent = "Analysis complete: " + filename;
