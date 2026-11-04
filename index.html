@@ -11,6 +11,7 @@
   <script src="parser.js" defer></script>
   <script src="audit.js" defer></script>
   <script src="statistics.js" defer></script>
+  <script src="validation.js" defer></script>
   <script src="app.js" defer></script>
   <script src="cleaning.js" defer></script>
   <script src="passport.js" defer></script>
@@ -97,6 +98,40 @@
         <p class="helper">Only the first six resulting rows are shown. The original preview remains available below.</p>
         <div class="table-wrapper"><table id="cleanPreviewTable"><thead></thead><tbody></tbody></table></div>
         <div class="clean-actions"><button id="cleanDownload" type="button" disabled>↓ Download cleaned CSV</button><span id="cleanStatus" role="status">Original data remains untouched.</span></div>
+      </section>
+
+      <section class="panel validation-panel" id="validationStudio">
+        <div class="section-heading">
+          <span class="eyebrow">RELIABILITY ENGINE · V2 PREVIEW</span>
+          <h2>Custom Validation Studio</h2>
+          <p>Define what counts as valid for your dataset. Checks report CSV row references, not raw values. They do not alter the source data or claim machine-learning readiness.</p>
+        </div>
+        <p class="validation-explainer">For example: make <strong>student_id</strong> unique, require <strong>contact</strong>, or keep <strong>score</strong> between 0 and 100. Blank cells are ignored by all checks except Required.</p>
+        <div id="validationEmpty" class="helper">Upload a dataset before creating validation rules.</div>
+        <form id="validationRuleForm" class="validation-form" hidden>
+          <label>Column<select id="validationColumn" required></select></label>
+          <label>Quality rule<select id="validationRuleType" required>
+            <option value="required">Required (not blank)</option>
+            <option value="unique">Unique values</option>
+            <option value="numeric_range">Numeric range</option>
+            <option value="allowed_values">Allowed categories</option>
+          </select></label>
+          <div id="validationRangeFields" class="validation-extra" hidden>
+            <label>Minimum<input id="validationMin" type="number" step="any" placeholder="0"></label>
+            <label>Maximum<input id="validationMax" type="number" step="any" placeholder="100"></label>
+          </div>
+          <div id="validationAllowedFields" class="validation-extra" hidden>
+            <label>Allowed values (comma-separated)<input id="validationAllowed" type="text" maxlength="500" placeholder="A, B, C"></label>
+          </div>
+          <button type="submit" class="validation-add">+ Add validation rule</button>
+        </form>
+        <p id="validationStatus" class="helper" role="status">No dataset selected.</p>
+        <p id="validationSummary" class="validation-summary" aria-live="polite">No custom checks yet.</p>
+        <div id="validationRules" class="validation-results"></div>
+        <div class="validation-footer">
+          <button id="validationExport" type="button" disabled>↓ Download validation summary</button>
+          <span class="helper">Exports rule definitions, counts and CSV row numbers only. Column names and aggregated results may still be sensitive.</span>
+        </div>
       </section>
 
       <section class="panel passport-panel" id="datasetPassport">
