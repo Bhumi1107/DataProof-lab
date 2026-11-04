@@ -115,3 +115,5 @@ h1{font-size:clamp(29px,4vw,44px);letter-spacing:-1.4px;line-height:1.15;margin:
 .validation-footer .helper{flex:1;min-width:200px;line-height:1.55;font-size:11px}
 .error-text{color:#aa4237!important}
 @media(max-width:720px){.validation-form,.validation-results,.validation-extra{grid-template-columns:1fr}.validation-form button,.validation-footer button{width:100%}.validation-form{gap:12px}}
+
+.validation-form[hidden]{display:none!important}
